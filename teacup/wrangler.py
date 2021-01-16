@@ -16,7 +16,7 @@ def wide_format(data, transitions, entry, exit):
 
     exit: the name of the column indicating final follow-up year for each subject ex. "Final"
 
-    entry: the name of the column indicating age at study entry
+    entry: the name of the column indicating year of study entry
 
     Returns
     ----------
