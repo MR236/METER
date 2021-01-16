@@ -1,6 +1,5 @@
 """ Functions for preparing the data to construct multi-state life tables """
 
-import pandas as pd
 import numpy as np
 
 
