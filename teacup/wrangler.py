@@ -1,9 +1,10 @@
 """ Functions for preparing the data to construct multi-state life tables """
 
 import numpy as np
+import pandas as pd
 
 
-def wide_format(data, transitions, entry, exit):
+def wide_format(data, transition_names, exit):
     """
     Take data with transitions as calendar dates and expand for life table construction
 
@@ -12,11 +13,10 @@ def wide_format(data, transitions, entry, exit):
 
     data: the data, with year dates of all transitions, with one subject per line
 
-    transitions: a list of the names of the columns that contain the transition years ex. ["Nominee", "Winner", "Death"]
+    transition_names: a list of the names of the columns that contain the transition years
+    ex. ['Birth', 'First_Film', 'Death'] with first taken as study entry
 
     exit: the name of the column indicating final follow-up year for each subject ex. "Final"
-
-    entry: the name of the column indicating year of study entry
 
     Returns
     ----------
@@ -28,13 +28,13 @@ def wide_format(data, transitions, entry, exit):
 
     """
     df = data.copy()
-    df['final age'] = df[exit] - df[entry]
-    for i in range(0, len(transitions) - 2):
+    df['final age'] = df[exit] - df[transition_names[0]]
+    for i in range(1, len(transition_names) - 2):
         # here we ensure that a later transition in the same year always supersedes
-        df[transitions[i]] = np.where(df[transitions[i]] == df[transitions[i+1]], None, df[transitions[i]])
-    for i in transitions:
+        df[transition_names[i]] = np.where(df[transition_names[i]] == df[transition_names[i+1]], None, df[transition_names[i]])
+    for i in transition_names:
         df[i + "_status"] = [0 if x is None else 1 for x in df[i]]
-        df[i + "_age"] = np.where(df[i + "_status"] == 0, df['final age'], df[i] - df[entry])
+        df[i + "_age"] = np.where(df[i + "_status"] == 0, df['final age'], df[i] - df[transition_names[0]])
     return df
 
 
@@ -81,3 +81,5 @@ def df_to_list(data):
     for i in range((data.shape[0])):
         row_list.append(list(data.iloc[i, :]))
     return row_list
+
+
