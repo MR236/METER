@@ -74,3 +74,55 @@ def atrisk_and_transitions(data, transition_names, states):
     return([riskdf, transdf])
 
 
+def transitionprobs_and_samplesizes(riskdf, transdf, states):
+    """
+    Get the number of individuals in a given state at a given age, and number of transitions
+    at each age.
+
+    Parameters
+    ----------
+
+    riskdf: a dataframe with the number of individuals in each state, indexed at each age. This is
+    the first output from the at_risk_and_transitions function.
+
+    transdf: a dataframe containing the number of transitions of each type in each year. The second
+    output from the at_risk_and_transitions function.
+
+    states: the names of the states in the model, the entry into each of which should
+    correspond to the columns in transition_names.
+
+    Returns
+    ----------
+
+    a two element list with:
+    - first element a list containing the transition matrix ("kernel") for each year
+    - second element a list containing the sample size for each transition in each year
+
+    """
+    numstates = len(states)
+    raw_transitions = np.full((numstates, numstates, len(riskdf)), 0)
+    raw_SS = np.full((numstates, numstates, len(riskdf)), 0)
+    allowable_transitions = wr.allowed_transitions(states)
+    for n in range(0, len(allowable_transitions)):
+        fromstate = states[allowable_transitions[n][0]]
+        tostate = states[allowable_transitions[n][1]]
+        transition = fromstate + "->" + tostate
+        raw_transitions[allowable_transitions[n][0], allowable_transitions[n][1]] = transdf[transition].to_numpy()
+        raw_SS[allowable_transitions[n][0], allowable_transitions[n][1]] = riskdf[fromstate].to_numpy()
+    samplesizes = raw_SS.transpose((2, 1, 0))
+    transmat = np.divide(raw_transitions.transpose((2, 1, 0)), samplesizes,out=np.zeros(samplesizes.shape, dtype=float), where=samplesizes!=0)
+    for i in range(0, numstates):
+        transitions_out = []
+        for z in allowable_transitions:
+            if i == z[0]:
+                transitions_out.append(z)
+        for x in range(0, len(transmat)):
+            stay_prob = 1
+            for q in transitions_out:
+                stay_prob -= transmat[x][q[1], q[0]]
+            transmat[x][i,i] = stay_prob
+    return [transmat, samplesizes]
+
+
+
+
