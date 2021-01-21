@@ -1,11 +1,11 @@
 from setuptools import setup
 
 setup(
-    name='teacup',
+    name='PyMSM',
     url='https://github.com/MR236/TEAcup',
     author='Malcolm Risk',
     author_email='mr236@st-andrews.ac.uk',
-    packages=['teacup'],
+    packages=['PyMSM'],
     install_requires=['numpy', 'pandas', 'matplotlib'],
     version='0.1',
     license='CC0',
