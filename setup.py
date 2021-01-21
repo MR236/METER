@@ -6,7 +6,7 @@ setup(
     author='Malcolm Risk',
     author_email='mr236@st-andrews.ac.uk',
     packages=['teacup'],
-    install_requires=['numpy', 'pandas', 'copy', 'matplotlib'],
+    install_requires=['numpy', 'pandas', 'matplotlib'],
     version='0.1',
     license='CC0',
     description='Python package for multi-state modelling',
