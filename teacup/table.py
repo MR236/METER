@@ -234,10 +234,10 @@ def KaplanMeier(data, termination):
     return [curve, total]
 
 
-def groupLE(data, transition_names, states, group, initial_age=0):
+def censorLE(data, transition_names, states, censor_state, initial_age=0, initial_state='default'):
     """
 
-    Get the life expectancy of an individual conditional on being in a particular state for their
+    Get the life expectancy of an individual conditional on not moving beyond a particular state for their
     whole life. This differs from the life_expectancy function by censoring all life histories at the
     state immediately after the desired state in order to preclude the possibility of individuals
     advancing to that state.
@@ -253,9 +253,12 @@ def groupLE(data, transition_names, states, group, initial_age=0):
     states: the names of the states in the model, the entry into each of which should
     correspond to the columns in transition_names.
 
-    group: the particular state that you want to estimate life expectancy based upon, ex. 'nominee'.
+    censor_state: the particular state that you want to restrict movement beyond, ex. 'nominee'.
 
     initial_age: optional input if you want to estimate life expectancy after a given age
+
+    initial_state: by default the same as the group above, this represents the initial state
+    that you want to estimate life expectancy from.
 
     Returns
     ----------
@@ -264,12 +267,14 @@ def groupLE(data, transition_names, states, group, initial_age=0):
     state specified by the group variable.
 
     """
-    if group == states[-2]:
+    if initial_state == 'default':
+        initial_state = censor_state
+    if censor_state == states[-2]:
         cens_data = data
         cens_states = states
         cens_transitions = transition_names
     else:
-        g_ind = states.index(group)
+        g_ind = states.index(censor_state)
         cens_data = wr.censor(data, transition_names[g_ind + 1], transition_names)
         cens_states = states[0:g_ind+1]
         cens_transitions = transition_names[0:g_ind+1]
@@ -277,5 +282,5 @@ def groupLE(data, transition_names, states, group, initial_age=0):
         cens_transitions.append(transition_names[-1])
     atrisk = atrisk_and_transitions(cens_data, cens_transitions, cens_states)
     transmat = transitionprobs_and_samplesizes(atrisk[0], atrisk[1], cens_states)
-    LE = life_expectancy(transmat[0], group, initial_age, cens_states)
+    LE = life_expectancy(transmat[0], initial_state, initial_age, cens_states)
     return LE
