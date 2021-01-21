@@ -50,3 +50,5 @@ def survivorship_graph(survdf, states, colors, order='default'):
     plt.xlabel("Age, y")
     plt.ylabel("Probability, %")
     return plt
+
+
