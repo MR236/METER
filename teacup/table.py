@@ -135,7 +135,7 @@ def survivorship_vector(transmat, radix, initial_age, states):
     ----------
 
     transmat: a list of numpy matrices that represent the transition probabilities at each
-    age. This is the first output from transitionprobs_and_samplesizes
+    age. This is the first output from transitionprobs_and_samplesizes.
 
     states: the names of the states in the model, the entry into each of which should
     correspond to the columns in transition_names.
@@ -167,4 +167,68 @@ def survivorship_vector(transmat, radix, initial_age, states):
     return survdf
 
 
+def life_expectancy(transmat, initial_state, initial_age, states):
+    """
 
+    Predict the life expectancy of an individual based on current state and age
+
+    Parameters
+    ----------
+
+    transmat: a list of numpy matrices that represent the transition probabilities at each
+    age. This is the first output from transitionprobs_and_samplesizes.
+
+    states: the names of the states in the model.
+
+    initial_state: the initial state to model the survivorship ourcomes from.
+
+    initial_age: the initial age to model the survivorship outcomes from, so an integer from 0 to
+    the oldest age in the dataset.
+
+    Returns
+    ----------
+
+    the life expectancy (float decimal) of an individual given the paramets specified
+
+    """
+    radix = np.zeros((len(states), 1), dtype=float)
+    radix[states.index(initial_state), 0] = 1
+    survdf = survivorship_vector(transmat, radix, initial_age, states)
+    surv = survdf.values.tolist()
+    life_ex = 0
+    for i in surv:
+        life_ex += 1 - i[-1]
+    return life_ex
+
+
+def KaplanMeier(data, termination):
+    """
+
+    get Kaplan Meier survival curve for a given set of data
+
+    Parameters
+    ----------
+
+    data: the dataframe in wide format as created by the wide_format function
+
+    termination: the termination transition (most commonly death) that we want to base the curve on
+
+    Returns
+    ----------
+
+    list with:
+    - first element a list of age-specific survival proportions (points on a Kaplan-Meier curve)
+    - second element the area under the curve (ie life expectancy)
+
+    """
+    curve = []
+    s = 1
+    for n in range(0, int(data['final age'].max() + 1)):
+        curve.append(s)
+        D = len(data[(data[termination + "_age"] == n) & (data[termination + '_status'] == 1)])
+        N = len(data[(data['final age'] >= n - 1)])
+        s *= (N - D) / N
+    total = 0
+    for i in range(0, len(curve)):
+        total += curve[i]
+    return [curve, total]
