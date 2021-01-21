@@ -36,7 +36,7 @@ def atrisk_and_transitions(data, transition_names, states):
         t_statuses[i] = column_positions[t_statuses[i]]
         t_ages[i] = column_positions[t_ages[i]]
     max_age = data['final age'].max() # need the final age so we know how many age specific arrays needed
-    row_list = wr.df_to_list(data)
+    row_list = data.values.tolist()
     allowable_transitions = wr.allowed_transitions(states)
     transitions = []
     at_risk = []

@@ -2,6 +2,7 @@
 
 import numpy as np
 import pandas as pd
+import copy
 
 
 def wide_format(data, transition_names, exit):
@@ -28,8 +29,9 @@ def wide_format(data, transition_names, exit):
 
     """
     df = data.copy()
+    df = df.replace(({np.nan: None}))
     df['final age'] = df[exit] - df[transition_names[0]]
-    for i in range(1, len(transition_names) - 2):
+    for i in range(1, len(transition_names) - 1):
         # here we ensure that a later transition in the same year always supersedes
         df[transition_names[i]] = np.where(df[transition_names[i]] == df[transition_names[i+1]], None, df[transition_names[i]])
     for i in transition_names:
@@ -62,24 +64,32 @@ def allowed_transitions(states):
     return lst
 
 
-def df_to_list(data):
+def censor(data, transition, transition_names):
     """
-    this function converts a pandas dataframe to a list of rows for faster computation
+
+    censor all individuals in a dataframe at a given state
 
     Parameters
     ----------
 
-    data: the dataframe
+    transition: the column name in the original dataset that represented transitions into the state
+    you want to censor at (ex. First_Film)
+
+    transition_names: a list of the names of the columns that contain the transition years
+    ex. ['Birth', 'First_Film', 'Death'] with first taken as study entry
+
+    data: the dataframe in wide format as created by the wide_format function
 
     Returns
     ----------
 
-    the dataframe as a list of rows
+    a new dataframe where all individuals have been censored at the desired state
 
     """
-    row_list = []
-    for i in range((data.shape[0])):
-        row_list.append(list(data.iloc[i, :]))
-    return row_list
-
-
+    newdata = data.copy()
+    t_number = transition_names.index(transition)
+    for i in range(t_number, len(transition_names) - 1):
+        newdata['final age'] = np.where(data[transition_names[i] + "_status"] == 1, data[transition_names[i] + "_age"], data['final age'])
+        newdata[transition_names[-1] + "_status"] = np.where(data[transition_names[i] + "_status"] == 1, 0, data[transition_names[-1] + "_status"])
+        newdata[transition_names[-1] + "_age"] = np.where(data[transition_names[i] + "_status"] == 1, float('NaN'), data[transition_names[-1] + "_age"])
+    return newdata
