@@ -2,7 +2,7 @@
 
 import numpy as np
 import pandas as pd
-from PyMSM.wrangler import censor
+import PyMSM.wrangler as wr
 
 
 def atrisk_and_transitions(data, transition_names, states):
@@ -276,7 +276,7 @@ def censorLE(data, transition_names, states, censor_state, initial_age=0, initia
         cens_transitions = transition_names
     else:
         g_ind = states.index(censor_state)
-        cens_data = censor(data, transition_names[g_ind + 1], transition_names)
+        cens_data = wr.censor(data, transition_names[g_ind + 1], transition_names)
         cens_states = states[0:g_ind+1]
         cens_transitions = transition_names[0:g_ind+1]
         cens_states.append(states[-1])
