@@ -235,7 +235,7 @@ def KaplanMeier(data, termination):
     return [curve, total]
 
 
-def censorLE(data, transition_names, states, censor_state, initial_age=0, initial_state='default'):
+def censorLE(data, transition_names, states, censor_state, initial_age=0, initial_state='default', conditions='default'):
     """
 
     Get the life expectancy of an individual conditional on not moving beyond a particular state for their
@@ -255,11 +255,15 @@ def censorLE(data, transition_names, states, censor_state, initial_age=0, initia
     correspond to the columns in transition_names.
 
     censor_state: the particular state that you want to restrict movement beyond, ex. 'nominee'.
+    If you don't want any censoring then just pick the final non-death state.
 
     initial_age: optional input if you want to estimate life expectancy after a given age
 
     initial_state: by default the same as the group above, this represents the initial state
     that you want to estimate life expectancy from.
+
+    conditions: a set of conditions you want the group to be subject to (by default none).
+    ex. {'Male_1': 0}
 
     Returns
     ----------
@@ -281,6 +285,8 @@ def censorLE(data, transition_names, states, censor_state, initial_age=0, initia
         cens_transitions = transition_names[0:g_ind+1]
         cens_states.append(states[-1])
         cens_transitions.append(transition_names[-1])
+    for i in conditions:
+        cens_data = cens_data[cens_data[i] == conditions[i]]
     atrisk = atrisk_and_transitions(cens_data, cens_transitions, cens_states)
     transmat = transitionprobs_and_samplesizes(atrisk[0], atrisk[1], cens_states)
     LE = life_expectancy(transmat[0], initial_state, initial_age, cens_states)

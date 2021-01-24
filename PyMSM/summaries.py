@@ -5,7 +5,7 @@ import itertools
 import PyMSM.table as tb
 
 
-def bootstrapLE(data, transition_names, states, censor_states, n=1000, initial_age=0, initial_states='default', group_names = 'default'):
+def bootstrapLE(data, transition_names, states, censor_states, n=1000, initial_age=0, initial_states='default', group_names='default', conditions='default'):
     """
 
     Run a bootstrap on the life expectancy for a given set of groups and their differences
@@ -21,7 +21,8 @@ def bootstrapLE(data, transition_names, states, censor_states, n=1000, initial_a
     states: the names of the states in the model, the entry into each of which should
     correspond to the columns in transition_names.
 
-    censor_states: the states you want each group's life expectancy to be censored at.
+    censor_states: the states you want each group's life expectancy to be censored at. If you don't want
+    any censoring then just pick the final non-death state for every group.
 
     n: the number of bootstraps to run, by default 1000.
 
@@ -34,6 +35,9 @@ def bootstrapLE(data, transition_names, states, censor_states, n=1000, initial_a
     group_names: what the groups (whose structure is defined both by the initial states and censor states given)
     are to be called. by default this is the same as the censor states.
 
+    conditions: a list of sets of conditions you want each group to be subject to (by default none).
+    ex. [{'Male_1': 0}, {'Male_1': 1}
+
     Returns
     ----------
 
@@ -45,11 +49,13 @@ def bootstrapLE(data, transition_names, states, censor_states, n=1000, initial_a
         initial_states = censor_states
     if group_names == 'default':
         group_names = censor_states
+    if conditions == 'default':
+        conditions = [{}] * len(censor_states)
     rows = []
     colnames = []
     results = []
     for i in range(0, len(censor_states)):
-        results.append(tb.censorLE(data, transition_names, states, censor_states[i], initial_age, initial_states[i]))
+        results.append(tb.censorLE(data, transition_names, states, censor_states[i], initial_age, initial_states[i], conditions[i]))
     print("BEST ESTIMATE")
     for i in range(0, len(results)):
         print(group_names[i] + " Life Expectancy: " + str(results[i]))
@@ -67,7 +73,7 @@ def bootstrapLE(data, transition_names, states, censor_states, n=1000, initial_a
         boot_df = data.sample(frac=1, replace=True)
         results = []
         for y in range(0, len(censor_states)):
-            results.append(tb.censorLE(boot_df, transition_names, states, censor_states[y], initial_age, initial_states[y]))
+            results.append(tb.censorLE(boot_df, transition_names, states, censor_states[y], initial_age, initial_states[y], conditions[y]))
         print("BOOT RUN " + str(i + 1))
         for y in range(0, len(results)):
             print(group_names[y] + " Life Expectancy: " + str(results[y]))
