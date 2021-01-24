@@ -2,6 +2,7 @@
 import numpy as np
 import pandas as pd
 import itertools
+from PyMSM.table import censorLE
 
 
 def bootstrapLE(data, transition_names, states, censor_states, n=1000, initial_age=0, initial_states='default', group_names = 'default'):
