@@ -1,8 +1,6 @@
 """ Functions for generating statistical summaries from multi-state life tables """
 import numpy as np
 import pandas as pd
-import table as tb
-import wrangler as wr
 import itertools
 
 
@@ -50,7 +48,7 @@ def bootstrapLE(data, transition_names, states, censor_states, n=1000, initial_a
     colnames = []
     results = []
     for i in range(0, len(censor_states)):
-        results.append(tb.censorLE(data, transition_names, states, censor_states[i], initial_age, initial_states[i]))
+        results.append(censorLE(data, transition_names, states, censor_states[i], initial_age, initial_states[i]))
     print("BEST ESTIMATE")
     for i in range(0, len(results)):
         print(group_names[i] + " Life Expectancy: " + str(results[i]))
@@ -68,7 +66,7 @@ def bootstrapLE(data, transition_names, states, censor_states, n=1000, initial_a
         boot_df = data.sample(frac=1, replace=True)
         results = []
         for y in range(0, len(censor_states)):
-            results.append(tb.censorLE(boot_df, transition_names, states, censor_states[y], initial_age, initial_states[y]))
+            results.append(censorLE(boot_df, transition_names, states, censor_states[y], initial_age, initial_states[y]))
         print("BOOT RUN " + str(i + 1))
         for y in range(0, len(results)):
             print(group_names[y] + " Life Expectancy: " + str(results[y]))
