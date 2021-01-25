@@ -5,7 +5,7 @@ import itertools
 import PyMSM.table as tb
 
 
-def bootstrapLE(data, transition_names, states, censor_states, n=1000, initial_age=0, initial_states='default', group_names='default', conditions='default', loud=FALSE):
+def bootstrapLE(data, transition_names, states, censor_states, n=1000, initial_age=0, initial_states='default', group_names='default', conditions='default', loud=False):
     """
 
     Run a bootstrap on the life expectancy for a given set of groups and their differences
