@@ -5,7 +5,7 @@ import itertools
 import PyMSM.table as tb
 
 
-def bootstrapLE(data, transition_names, states, censor_states, n=1000, initial_age=0, initial_states='default', group_names='default', conditions='default'):
+def bootstrapLE(data, transition_names, states, censor_states, n=1000, initial_age=0, initial_states='default', group_names='default', conditions='default', loud=FALSE):
     """
 
     Run a bootstrap on the life expectancy for a given set of groups and their differences
@@ -38,6 +38,9 @@ def bootstrapLE(data, transition_names, states, censor_states, n=1000, initial_a
     conditions: a list of sets of conditions you want each group to be subject to (by default none).
     ex. [{'Male_1': 0}, {'Male_1': 1}
 
+    loud: by default this is false. If it is set to true a small summary of the results of each bootstrap
+    as well as the best estimate calculated initially are printed to the console.
+
     Returns
     ----------
 
@@ -56,16 +59,19 @@ def bootstrapLE(data, transition_names, states, censor_states, n=1000, initial_a
     results = []
     for i in range(0, len(censor_states)):
         results.append(tb.censorLE(data, transition_names, states, censor_states[i], initial_age, initial_states[i], conditions[i]))
-    print("BEST ESTIMATE")
+    if loud:
+        print("BEST ESTIMATE")
     for i in range(0, len(results)):
-        print(group_names[i] + " Life Expectancy: " + str(results[i]))
+        if loud:
+            print(group_names[i] + " Life Expectancy: " + str(results[i]))
         colnames.append(group_names[i] + " Life Expectancy")
     pair_results = []
     for pair in itertools.combinations([i for i in range(0, len(results))], 2):
         diff = results[pair[0]] - results[pair[1]]
         pair_results.append(diff)
         colnames.append(group_names[pair[0]] + "-" + group_names[pair[1]] + " Difference")
-        print(group_names[pair[0]] + "-" + group_names[pair[1]] + " Difference: " + str(diff))
+        if loud:
+            print(group_names[pair[0]] + "-" + group_names[pair[1]] + " Difference: " + str(diff))
     rows.append(results + pair_results)
     for i in range(0, len(rows[0])):
         rows[0][i] = round(rows[0][i], 1)
@@ -74,14 +80,17 @@ def bootstrapLE(data, transition_names, states, censor_states, n=1000, initial_a
         results = []
         for y in range(0, len(censor_states)):
             results.append(tb.censorLE(boot_df, transition_names, states, censor_states[y], initial_age, initial_states[y], conditions[y]))
-        print("BOOT RUN " + str(i + 1))
-        for y in range(0, len(results)):
-            print(group_names[y] + " Life Expectancy: " + str(results[y]))
+        if loud:
+            print("BOOT RUN " + str(i + 1))
+        if loud:
+            for y in range(0, len(results)):
+                print(group_names[y] + " Life Expectancy: " + str(results[y]))
         pair_results = []
         for pair in itertools.combinations([x for x in range(0, len(results))], 2):
             diff = results[pair[0]] - results[pair[1]]
             pair_results.append(diff)
-            print(group_names[pair[0]] + "-" + group_names[pair[1]] + " Difference: " + str(diff))
+            if loud:
+                print(group_names[pair[0]] + "-" + group_names[pair[1]] + " Difference: " + str(diff))
         rows.append(results + pair_results)
     boot_results = pd.DataFrame(rows,columns=colnames)
     boot_results.index.name = "Bootstrap Run"
