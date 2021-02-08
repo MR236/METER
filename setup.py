@@ -11,4 +11,5 @@ setup(
     license='CC0',
     description='Python package for multi-state modelling',
     long_description=open('README.md').read(),
+    long_description_content_type='text/markdown'
 )
