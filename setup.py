@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='METER',
-    url='https://github.com/MR236/TEAcup',
+    url='https://github.com/MR236/METER',
     author='Malcolm Risk',
     author_email='mr236@st-andrews.ac.uk',
     packages=['METER'],
