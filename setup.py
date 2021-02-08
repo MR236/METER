@@ -7,9 +7,9 @@ setup(
     author_email='mr236@st-andrews.ac.uk',
     packages=['METER'],
     install_requires=['numpy', 'pandas', 'matplotlib'],
-    version='0.3.2',
+    version='0.3.3',
     license='CC0',
-    description='Python package for multi-state modelling',
+    description='Multi-state Estimates for Time-to-Event Research',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown'
 )
