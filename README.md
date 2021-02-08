@@ -1,4 +1,5 @@
-# PyMSM
+# METER
+## (Multi-state Estimates for Time-to-Event Research)
 An implementation of multi-state life table analysis for projects and research involving longevity and markov chain models. Useful for analysis of inhomogenous discrete-time acyclic markov chain processes. 
 
 ## References
