@@ -7,7 +7,7 @@ setup(
     author_email='mr236@st-andrews.ac.uk',
     packages=['METER'],
     install_requires=['numpy', 'pandas', 'matplotlib'],
-    version='0.3',
+    version='0.3.1',
     license='CC0',
     description='Python package for multi-state modelling',
     long_description=open('README.md').read(),
