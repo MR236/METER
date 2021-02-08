@@ -2,7 +2,7 @@
 
 import numpy as np
 import pandas as pd
-import PyMSM.wrangler as wr
+import METER.wrangler as wr
 
 
 def atrisk_and_transitions(data, transition_names, states):
