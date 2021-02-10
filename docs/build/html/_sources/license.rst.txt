@@ -45,19 +45,19 @@ protected by copyright and related or neighboring rights ("Copyright and
 Related Rights"). Copyright and Related Rights include, but are not
 limited to, the following:
 
-   a. the right to reproduce, adapt, distribute, perform, display, communicate, and translate a Work;
+   (i). the right to reproduce, adapt, distribute, perform, display, communicate, and translate a Work;
 
-   b. moral rights retained by the original author(s) and/or performer(s);
+   (ii). moral rights retained by the original author(s) and/or performer(s);
 
-   c. publicity and privacy rights pertaining to a person's image or likeness depicted in a Work;
+   (iii). publicity and privacy rights pertaining to a person's image or likeness depicted in a Work;
 
-   d. rights protecting against unfair competition in regards to a Work, subject to the limitations in paragraph 4(a), below;
+   (iv). rights protecting against unfair competition in regards to a Work, subject to the limitations in paragraph 4(a), below;
 
-   e. rights protecting the extraction, dissemination, use and reuse of data in a Work;
+   (v). rights protecting the extraction, dissemination, use and reuse of data in a Work;
 
-   f. database rights (such as those arising under Directive 96/9/EC of the European Parliament and of the Council of 11 March 1996 on the legal protection of databases, and under any national implementation thereof, including any amended or successor version of such directive); and
+   (vi). database rights (such as those arising under Directive 96/9/EC of the European Parliament and of the Council of 11 March 1996 on the legal protection of databases, and under any national implementation thereof, including any amended or successor version of such directive); and
 
-   g. other similar, equivalent or corresponding rights throughout the world based on applicable law or treaty, and any national implementations thereof.
+   (vii). other similar, equivalent or corresponding rights throughout the world based on applicable law or treaty, and any national implementations thereof.
 
 2. Waiver. To the greatest extent permitted by, but not in contravention
 of, applicable law, Affirmer hereby overtly, fully, permanently,
