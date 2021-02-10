@@ -123,6 +123,6 @@ express Statement of Purpose.
     this CC0 or use of the Work.
 
 Contact
-============
+-----------
 
 Questions? Please contact mrisk435@gmail.com
