@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Installation &mdash; METER 0.3.3 documentation</title>
+  <title>Should I use METER? &mdash; METER 0.3.3 documentation</title>
   
 
   
@@ -39,8 +39,8 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="License" href="license.html" />
-    <link rel="prev" title="METER 0.4.3 Documentation" href="index.html" /> 
+    <link rel="next" title="Constructing Multi-State Life Tables" href="table.html" />
+    <link rel="prev" title="METER 0.4.4 Documentation" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -86,11 +86,12 @@
             
             
               <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Should I use METER?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Constructing Multi-State Life Tables</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="license.html#contact">Contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="help.html">Need Help?</a></li>
 </ul>
 
@@ -140,7 +141,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Installation</li>
+      <li>Should I use METER?</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -159,13 +160,33 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="installation">
+  <div class="section" id="should-i-use-meter">
+<h1>Should I use METER?<a class="headerlink" href="#should-i-use-meter" title="Permalink to this headline">¶</a></h1>
+<p>METER is specifically designed for discrete-time, time-inhomogenous, and acyclic multi-state markov models. To go through each of these elements individually:</p>
+<ul class="simple">
+<li><p>The main assumption of a <strong>markov model</strong> is that the past states of a process do not affect transition probabilites going forward. If you have an application where the previous states of a process are likely to have an effect (if you are studying radiation exposure, for example) this assumption will not hold and you should consider using a semi-markov model.</p></li>
+</ul>
+<hr class="docutils" />
+<ul class="simple">
+<li><p><strong>Discrete-time</strong> means that observations are taken at regular time intervals that can be indexed by natural numbers. Typically this means that the data is indexed by days or years. This assumption will not hold for data with inconsistent intervals between observations, which would be typical for clinical data on cancer relapse and many types of survey data.</p></li>
+</ul>
+<hr class="docutils" />
+<ul class="simple">
+<li><p><strong>Acyclic</strong> means that states have a defined order and it is not possible to move backwards to a preceding state. For the time being, METER does not support cyclic models, although this is high on the list of planned improvements.</p></li>
+</ul>
+<hr class="docutils" />
+<ul class="simple">
+<li><p><strong>Time-inhomogenous</strong> means that time from study entry affects the probability of transitions between states. This is typical for data that stretches over long periods of time, where subject age may be a relevant factor. For example, an individual diagnosed with type 2 diabetes at age 20 is going to have a much better short-term survival prognosis than an 80-year-old with the same diagnosis.</p></li>
+</ul>
+<p>You can still use METER if believe that your process is time-homogenous, but you might have simpler options available. If you want to model a continuous time process, I suggest using the R package <a class="reference external" href="https://cran.r-project.org/web/packages/msm/index.html">MSM</a>.</p>
+</div>
+<div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <p>Run the following in your command line or python console:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">METER</span>
 </pre></div>
 </div>
-<p>For a look at past versions or to download files directly, visit <a class="reference external" href="https://pypi.org/project/METER/">PyPI</a></p>
+<p>For a look at past versions or to download files directly, visit <a class="reference external" href="https://pypi.org/project/METER/">PyPI</a>.</p>
 </div>
 
 
@@ -174,8 +195,8 @@
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="license.html" class="btn btn-neutral float-right" title="License" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="index.html" class="btn btn-neutral float-left" title="METER 0.4.3 Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="table.html" class="btn btn-neutral float-right" title="Constructing Multi-State Life Tables" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="METER 0.4.4 Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

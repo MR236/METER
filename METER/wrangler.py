@@ -7,25 +7,27 @@ import copy
 
 def wide_format(data, transition_names, exit):
     """
-    Take data with transitions as calendar dates and expand for life table construction
+    Take data with transitions as calendar dates and expand for life table construction. If multiple transitions occur at the same time (i.e. in the same year or day) then only the final transition is counted as occuring.
 
     Parameters
     ----------
+    data : pandas dataframe
+        the data, with dates of all transitions, with one subject per line
 
-    data: the data, with year dates of all transitions, with one subject per line
+    transition_names: list
+        a list of the names of the columns that contain the transition years
 
-    transition_names: a list of the names of the columns that contain the transition years
-    ex. ['Birth', 'First_Film', 'Death'] with first taken as study entry
-
-    exit: the name of the column indicating final follow-up year for each subject ex. "Final"
+    exit: string
+        the name of the column indicating final follow-up date for each subject
 
     Returns
     ----------
+    pandas dataframe
+        a dataframe with additional columns for:
 
-    a dataframe in wide format with additional columns for:
-    - transitions as years from birth
-    - transition status columns indicating whether such a transition ever occurred
-    - a column final_age, for age at study close-out
+        - transitions as time from study entry
+        - transition status columns indicating whether such a transition ever occurred
+        - a column final_age, for age at study close-out
 
     """
     df = data.copy()
