@@ -17,7 +17,7 @@ METER is specifically designed for discrete-time, time-inhomogenous, and acyclic
 
 - **Time-inhomogenous** means that time from study entry affects the probability of transitions between states. This is typical for data that stretches over long periods of time, where subject age may be a relevant factor. For example, an individual diagnosed with type 2 diabetes at age 20 is going to have a much better short-term survival prognosis than an 80-year-old with the same diagnosis. 
 
-You can still use METER if believe that your process is time-homogenous, but you might have simpler options available. If you want to model a continuous time process, I suggest using the R package `MSM <https://cran.r-project.org/web/packages/msm/index.html>`_.
+You can still use METER if you believe that your process is time-homogenous, but you might have simpler options available. If you want to model a continuous time process, I suggest using the R package `MSM <https://cran.r-project.org/web/packages/msm/index.html>`_.
 
 Installation
 ===================
