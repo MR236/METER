@@ -8,6 +8,14 @@ Guide
 
 .. toctree::
    :maxdepth: 2
+
+   installation
+
+General
+==================
+
+.. toctree::
+   :maxdepth: 2
    
    license
    help
