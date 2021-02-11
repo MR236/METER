@@ -236,7 +236,7 @@ def KaplanMeier(data, termination):
     return [curve, total]
 
 
-def censorLE(data, transition_names, states, initial_state, initial_age=0, censor_state='default', conditions='default'):
+def censorLE(data, transition_names, states, initial_state, initial_age=0, censor_state='default', conditions=None):
     """
 
     Get the life expectancy of an individual conditional on not moving beyond a particular state for their
@@ -270,6 +270,8 @@ def censorLE(data, transition_names, states, initial_state, initial_age=0, censo
         the life expectancy of an individual starting in the initial state given the conditions provided
 
     """
+    if conditions is None:
+        conditions = {}
     if censor_state == 'default':
         censor_state = states[-2]
     if censor_state == states[-2]:
