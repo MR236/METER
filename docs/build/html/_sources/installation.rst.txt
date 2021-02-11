@@ -19,6 +19,8 @@ METER is specifically designed for discrete-time, time-inhomogenous, and acyclic
 
 You can still use METER if you believe that your process is time-homogenous, but you might have simpler options available. If you want to model a continuous time process, I suggest using the R package `MSM <https://cran.r-project.org/web/packages/msm/index.html>`_.
 
+If you haven't used Python before I would recommend going through a tutorial or two and familiarizing yourself with basic datatypes, but you will not need any advanced knowledge of the language to use METER. You should also make sure that you know how to import .xls and .csv files as pandas dataframes. If you want to do anything beyond the core functionality of the package a decent background in `pandas <https://pandas.pydata.org/>`_ will be very useful. 
+
 Installation
 ===================
 

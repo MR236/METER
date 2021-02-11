@@ -39,7 +39,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="License" href="license.html" />
+    <link rel="next" title="Generating Survival Estimates" href="statistics.html" />
     <link rel="prev" title="Should I use METER?" href="installation.html" /> 
 </head>
 
@@ -89,6 +89,8 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Should I use METER?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html#installation">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Constructing Multi-State Life Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="statistics.html">Generating Survival Estimates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualizations.html">Graphical Summaries</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -165,9 +167,9 @@
 <p>The first step to using METER is to have your data in the correct format. The data should have one subject per row, and have columns containing each of the transition times. Transition times can be specified as calendar dates or time from study entry, as the wide_format function will convert everything into the latter format.</p>
 <dl class="simple">
 <dt>To obtain the transition matrices of the multi-state model you should do the following:</dt><dd><ol class="arabic simple">
-<li><p>Use <a class="reference internal" href="#METER.wrangler.wide_format" title="METER.wrangler.wide_format"><code class="xref py py-func docutils literal notranslate"><span class="pre">METER.wrangler.wide_format()</span></code></a> to obtain the data in wide format.</p></li>
-<li><p>Use <a class="reference internal" href="#METER.table.atrisk_and_transitions" title="METER.table.atrisk_and_transitions"><code class="xref py py-func docutils literal notranslate"><span class="pre">METER.table.atrisk_and_transitions()</span></code></a> to obtain the risk sets and number of transitions made at each time point.</p></li>
-<li><p>Use <a class="reference internal" href="#METER.table.transitionprobs_and_samplesizes" title="METER.table.transitionprobs_and_samplesizes"><code class="xref py py-func docutils literal notranslate"><span class="pre">METER.table.transitionprobs_and_samplesizes()</span></code></a> to obtain the transition matrices for each time point, and the associated sample sizes.</p></li>
+<li><p>Use <a class="reference internal" href="#METER.wrangler.wide_format" title="METER.wrangler.wide_format"><code class="xref py py-func docutils literal notranslate"><span class="pre">wide_format()</span></code></a> to obtain the data in wide format.</p></li>
+<li><p>Use <a class="reference internal" href="#METER.table.atrisk_and_transitions" title="METER.table.atrisk_and_transitions"><code class="xref py py-func docutils literal notranslate"><span class="pre">atrisk_and_transitions()</span></code></a> to obtain the risk sets and number of transitions made at each time point.</p></li>
+<li><p>Use <a class="reference internal" href="#METER.table.transitionprobs_and_samplesizes" title="METER.table.transitionprobs_and_samplesizes"><code class="xref py py-func docutils literal notranslate"><span class="pre">transitionprobs_and_samplesizes()</span></code></a> to obtain the transition matrices for each time point, and the associated sample sizes.</p></li>
 </ol>
 </dd>
 </dl>
@@ -176,6 +178,7 @@
 <p class="admonition-title">Note</p>
 <p>You should still be running wide_format even if your data already has transition times specified as time from study entry. This is because the wide_format function creates status columns that indicate whether each transition ever occured for a given subject, and ensures that there is only one transition per year.</p>
 </div>
+<p>METER also allows you to censor data at a given state. This is often useful for reasons mentioned in <a class="reference internal" href="statistics.html#life-expectancies"><span class="std std-ref">Life Expectancies</span></a>. If you want to censor your data, you should do this immediately after step 1 above, using <a class="reference internal" href="#METER.wrangler.censor" title="METER.wrangler.censor"><code class="xref py py-func docutils literal notranslate"><span class="pre">censor()</span></code></a>.</p>
 <dl class="py function">
 <dt id="METER.wrangler.wide_format">
 <code class="sig-prename descclassname">METER.wrangler.</code><code class="sig-name descname">wide_format</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">transition_names</span></em>, <em class="sig-param"><span class="n">exit</span></em><span class="sig-paren">)</span><a class="headerlink" href="#METER.wrangler.wide_format" title="Permalink to this definition">¶</a></dt>
@@ -210,7 +213,7 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>pandas dataframe</em>) – the data in wide format as generated by the wide_format function</p></li>
+<li><p><strong>data</strong> (<em>pandas dataframe</em>) – the data in wide format as generated by <a class="reference internal" href="#METER.wrangler.wide_format" title="METER.wrangler.wide_format"><code class="xref py py-func docutils literal notranslate"><span class="pre">wide_format()</span></code></a></p></li>
 <li><p><strong>transition_names</strong> (<em>list</em>) – a list of the names of the columns that contain the transition times</p></li>
 <li><p><strong>states</strong> (<em>list</em>) – the names of the states in the model, the entry into each of which will correspond to the columns in transition_names</p></li>
 </ul>
@@ -218,8 +221,8 @@
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><p>a two element list with:</p>
 <ul class="simple">
-<li><p>first element a dataframe containing the risk sets for each year</p></li>
-<li><p>second element a dataframe containing the number of transitions of each type in each year</p></li>
+<li><p>first element a dataframe containing the risk sets for each time point</p></li>
+<li><p>second element a dataframe containing the number of transitions of each type at each time point</p></li>
 </ul>
 </p>
 </dd>
@@ -236,9 +239,9 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>riskdf</strong> (<em>pandas dataframe</em>) – a dataframe with the number of individuals in each state, indexed at each time point. This is the first output from the at_risk_and_transitions function.</p></li>
-<li><p><strong>transdf</strong> (<em>pandas dataframe</em>) – a dataframe containing the number of transitions of each type at each time point. The second output from the at_risk_and_transitions function.</p></li>
-<li><p><strong>states</strong> (<em>list</em>) – the names of the states in the model, which should be the same as specified to atrisk_and_transitions.</p></li>
+<li><p><strong>riskdf</strong> (<em>pandas dataframe</em>) – a dataframe with the number of individuals in each state, indexed at each time point. This is the first output from <a class="reference internal" href="#METER.table.atrisk_and_transitions" title="METER.table.atrisk_and_transitions"><code class="xref py py-func docutils literal notranslate"><span class="pre">atrisk_and_transitions()</span></code></a></p></li>
+<li><p><strong>transdf</strong> (<em>pandas dataframe</em>) – a dataframe containing the number of transitions of each type at each time point. The second output from <a class="reference internal" href="#METER.table.atrisk_and_transitions" title="METER.table.atrisk_and_transitions"><code class="xref py py-func docutils literal notranslate"><span class="pre">atrisk_and_transitions()</span></code></a></p></li>
+<li><p><strong>states</strong> (<em>list</em>) – the names of the states in the model</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -255,6 +258,27 @@
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt id="METER.wrangler.censor">
+<code class="sig-prename descclassname">METER.wrangler.</code><code class="sig-name descname">censor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">transition</span></em>, <em class="sig-param"><span class="n">transition_names</span></em><span class="sig-paren">)</span><a class="headerlink" href="#METER.wrangler.censor" title="Permalink to this definition">¶</a></dt>
+<dd><p>censor all individuals in a dataframe at a given state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pandas dataframe</em>) – the dataframe in wide format as created by <a class="reference internal" href="#METER.wrangler.wide_format" title="METER.wrangler.wide_format"><code class="xref py py-func docutils literal notranslate"><span class="pre">wide_format()</span></code></a></p></li>
+<li><p><strong>transition</strong> (<em>string</em>) – the column name in the original dataset that represents transitions into the state you want to censor at</p></li>
+<li><p><strong>transition_names</strong> (<em>list</em>) – a list of the names of the columns that contain the transition times</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a new dataframe where all individuals have been censored at the desired state</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 
 
@@ -263,7 +287,7 @@
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="license.html" class="btn btn-neutral float-right" title="License" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="statistics.html" class="btn btn-neutral float-right" title="Generating Survival Estimates" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="installation.html" class="btn btn-neutral float-left" title="Should I use METER?" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 

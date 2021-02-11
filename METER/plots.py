@@ -4,29 +4,29 @@ import matplotlib.pyplot as plt
 
 def survivorship_graph(survdf, states, colors, order='default'):
     """
-
-    Take data with transitions as calendar dates and expand for life table construction
+    Stacked area chart of state probabilities for an individual.
 
     Parameters
     ----------
+    survdf : pandas dataframe
+        a dataframe containing the given probabilities of being in each state at each age for some
+        initial condition. This is precisely the output of :py:func:`.survivorship_vector`.
 
-    survdf: a dataframe containing the given probabilities of being in each state at each age for some
-    initial condition. This is precisely the output of survivorship_vector.
+    states : list
+        a list of the states in the model
 
-    states:  a python list with the set of states in a given model
-    (eg. ["Person", "Performer", "Nominee", "Dead"])
+    colors : list
+        a list of colors accepted by matplotlib (as strings) that matches the number of states
 
-    order: the order you want the states to be from top to bottom in the graph. The default is reverse order,
-    which is fairly visually appealing. If an input is passed it should be something like [0,1,2,3] with 0
-    representing the first state, 1 the second state, etc.
-
-    colors: a list of colors accepted by matplotlib (as strings) that matches the number of states
+    order : list
+        the order you want the states to be from top to bottom in the graph. The default is reverse order,
+        which is fairly visually appealing. If an input is passed it should be something like [0,1,2,3] with 0
+        representing the first state, 1 the second state, etc.
 
     Returns
     ----------
-
-    a graph of state proportions for some initial conditions
-
+    plot
+        a graph of state proportions for some initial conditions
     """
     if order == 'default':
         order = [i for i in range(len(states)-1, -1, -1)]

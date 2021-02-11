@@ -1,0 +1,388 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Generating Survival Estimates &mdash; METER 0.3.3 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Graphical Summaries" href="visualizations.html" />
+    <link rel="prev" title="Constructing Multi-State Life Tables" href="table.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> METER
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Should I use METER?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Constructing Multi-State Life Tables</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Generating Survival Estimates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#survival-predictions">Survival Predictions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#life-expectancies">Life Expectancies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="visualizations.html">Graphical Summaries</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="help.html">Need Help?</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">METER</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Generating Survival Estimates</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/statistics.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="generating-survival-estimates">
+<h1>Generating Survival Estimates<a class="headerlink" href="#generating-survival-estimates" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="survival-predictions">
+<h2>Survival Predictions<a class="headerlink" href="#survival-predictions" title="Permalink to this headline">¶</a></h2>
+<p>First, make sure that you have generated the <a class="reference internal" href="table.html#constructing-multi-state-life-tables"><span class="std std-ref">transition matrices</span></a>.</p>
+<p>Future state probabilites for any population of individuals from an initial time can be generated using <a class="reference internal" href="#METER.table.survivorship_vector" title="METER.table.survivorship_vector"><code class="xref py py-func docutils literal notranslate"><span class="pre">survivorship_vector()</span></code></a>. The most common application is likely to be generating future state probabilities for one individual, which can be obtained by specifying a radix with a 1 in the position of the state you want to predict from. At this point you can also generate a life expectancy for an individual starting in any state at any time from study entry using <a class="reference internal" href="#METER.table.life_expectancy" title="METER.table.life_expectancy"><code class="xref py py-func docutils literal notranslate"><span class="pre">life_expectancy()</span></code></a>, although it is possible to use <a class="reference internal" href="#METER.table.censorLE" title="METER.table.censorLE"><code class="xref py py-func docutils literal notranslate"><span class="pre">censorLE()</span></code></a> to obtain this directly from the data in wide format.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is implicitly assumed that the final state in your model is death, but this will also work for other outcomes that are the terminal state of a study. For example, if your study outcome is the age of reaching menopause then the life expectancy function will still give you a valid estimate.</p>
+</div>
+<dl class="py function">
+<dt id="METER.table.survivorship_vector">
+<code class="sig-prename descclassname">METER.table.</code><code class="sig-name descname">survivorship_vector</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">transmat</span></em>, <em class="sig-param"><span class="n">radix</span></em>, <em class="sig-param"><span class="n">initial_time</span></em>, <em class="sig-param"><span class="n">states</span></em><span class="sig-paren">)</span><a class="headerlink" href="#METER.table.survivorship_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict the expected proportion of a population being in a given state at each time point based on some
+initial time and number of individuals currently in each state. To get probabilities for one individual,
+simply proceed for a 1-individual population.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>transmat</strong> (<em>list</em>) – a list of numpy matrices that represent the transition probabilities at each
+time point. This is the first output from <a class="reference internal" href="table.html#METER.table.transitionprobs_and_samplesizes" title="METER.table.transitionprobs_and_samplesizes"><code class="xref py py-func docutils literal notranslate"><span class="pre">transitionprobs_and_samplesizes()</span></code></a>.</p></li>
+<li><p><strong>states</strong> (<em>list</em>) – the names of the states in the model</p></li>
+<li><p><strong>radix</strong> (<em>numpy array</em>) – an initial condition for the number of subjects in each state we want to model, specified
+as a numpy vector. For example, if we wanted the probabilities of being in each state for
+1 individual starting at the first state in a 6-state model the radix would be generated by
+np.array([[1],[0],[0],[0],[0],[0]], dtype=float).</p></li>
+<li><p><strong>initial_time</strong> (<em>int</em>) – the initial time to model the survivorship outcomes from</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a dataframe with the expected proportion of the population in each state at each time point past the
+initial time given</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="METER.table.life_expectancy">
+<code class="sig-prename descclassname">METER.table.</code><code class="sig-name descname">life_expectancy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">transmat</span></em>, <em class="sig-param"><span class="n">initial_state</span></em>, <em class="sig-param"><span class="n">initial_time</span></em>, <em class="sig-param"><span class="n">states</span></em><span class="sig-paren">)</span><a class="headerlink" href="#METER.table.life_expectancy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict the life expectancy of an individual based on current state and age</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>transmat</strong> (<em>list</em>) – a list of numpy matrices that represent the transition probabilities at each
+age. This is the first output from <a class="reference internal" href="table.html#METER.table.transitionprobs_and_samplesizes" title="METER.table.transitionprobs_and_samplesizes"><code class="xref py py-func docutils literal notranslate"><span class="pre">transitionprobs_and_samplesizes()</span></code></a>.</p></li>
+<li><p><strong>states</strong> (<em>list</em>) – the names of the states in the model.</p></li>
+<li><p><strong>initial_state</strong> (<em>string</em>) – the initial state to model the survivorship ourcomes from.</p></li>
+<li><p><strong>initial_age</strong> (<em>int</em>) – the initial time to model the survivorship outcomes from</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the life expectancy of an individual given the parameters specified</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="life-expectancies">
+<h2>Life Expectancies<a class="headerlink" href="#life-expectancies" title="Permalink to this headline">¶</a></h2>
+<p>For the methods in this section, it is not necessary to have obtained the transition matrices. However, make sure that you have used <a class="reference internal" href="table.html#METER.wrangler.wide_format" title="METER.wrangler.wide_format"><code class="xref py py-func docutils literal notranslate"><span class="pre">wide_format()</span></code></a> to get the data in the correct format.</p>
+<p>METER permits 4 different ways of characterizing an individual when computing life expectancies:</p>
+<ul class="simple">
+<li><p>The <strong>initial state</strong> is the state that the individual starts in, and is required whenever you ask METER to compute life expectancy point estimates or confidence intervals.</p></li>
+</ul>
+<hr class="docutils" />
+<ul class="simple">
+<li><p>The <strong>initial time</strong> is the time point that you are predicting from. METER always gives life expectancy from this point forwards, so if you want absolute life expectancy estimates from study entry you should add this on after you’ve obtained the estimates.</p></li>
+</ul>
+<hr class="docutils" />
+<ul class="simple">
+<li><p>A <strong>censor state</strong> is a state that you want to restrict the individual from moving beyond. This is useful for applications where you want to assess the life expectancy effect of attaining a certain state (eg. an award or military rank) and want to prevent your estimates for the control group from being affected by potential future transitions to that state.</p></li>
+</ul>
+<hr class="docutils" />
+<ul class="simple">
+<li><p>Finally, you can specify any arbitrary set of <strong>covariate conditions</strong> for subgroup analysis. For the time being these need to be categorical covariates, although this is on the list of improvements for future versions.</p></li>
+</ul>
+<p>Point estimates of life expectancy can be obtained using <a class="reference internal" href="#METER.table.censorLE" title="METER.table.censorLE"><code class="xref py py-func docutils literal notranslate"><span class="pre">censorLE()</span></code></a> directly from the data in wide format. As mentioned above, the initial state is a mandatory input. Unless the other conditions mentioned are specified, METER will assume that you want estimates from study entry (time point 0), with no censoring, and with no covariate restrictions.</p>
+<p>To obtain confidence intervals by non-parametric bootstrap, you can use <a class="reference internal" href="#METER.summaries.bootstrapLE" title="METER.summaries.bootstrapLE"><code class="xref py py-func docutils literal notranslate"><span class="pre">bootstrapLE()</span></code></a> to get a dataframe of bootstrap runs, and then use <a class="reference internal" href="#METER.summaries.summary_results" title="METER.summaries.summary_results"><code class="xref py py-func docutils literal notranslate"><span class="pre">summary_results()</span></code></a> to obtain the confidence intervals and point estimates. METER allows you to run the bootstrap for any arbitrary set of groups, each defined by different initial states, censor states, and covariate restrictions. The initial time must be constant over each of these groups, because METER also provides confidence intervals and point estimates for the difference between these groups, and those measures only make sense if each group begins at the same time point from study entry.</p>
+<p>METER is fast. 1000 bootstraps on a dataset of 5000 individuals with less than 10 states in the model for less than 5 groups should take under 15 minutes. If you want a log of how far your bootstrap has progressed printed to the console set loud=TRUE, and you will know whether you have time to go get a coffee.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are comparing life expectancies for a number of different groups, I highly recommend using the group_names input to bootstrapLE. By default the groups will be named based on the initial states and these names may not be unique, which could cause a great deal of confusion.</p>
+</div>
+<dl class="py function">
+<dt id="METER.table.censorLE">
+<code class="sig-prename descclassname">METER.table.</code><code class="sig-name descname">censorLE</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">transition_names</span></em>, <em class="sig-param"><span class="n">states</span></em>, <em class="sig-param"><span class="n">initial_state</span></em>, <em class="sig-param"><span class="n">initial_time</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">censor_state</span><span class="o">=</span><span class="default_value">'default'</span></em>, <em class="sig-param"><span class="n">conditions</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#METER.table.censorLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the life expectancy of an individual based on initial state, initial time, and any censor states or covariate conditions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pandas dataframe</em>) – the data in wide format as generated by <a class="reference internal" href="table.html#METER.wrangler.wide_format" title="METER.wrangler.wide_format"><code class="xref py py-func docutils literal notranslate"><span class="pre">wide_format()</span></code></a></p></li>
+<li><p><strong>transition_names</strong> (<em>list</em>) – a list of the names of the columns that contain the transition times</p></li>
+<li><p><strong>states</strong> (<em>list</em>) – the names of the states in the model</p></li>
+<li><p><strong>initial_state</strong> (<em>string</em>) – the initial state that you want to estimate life expectancy from</p></li>
+<li><p><strong>initial_time</strong> (<em>int</em>) – optional input if you want to estimate life expectancy after a given time (by default 0)</p></li>
+<li><p><strong>censor_state</strong> (<em>string</em>) – a particular state that you want to restrict movement beyond (by default none)</p></li>
+<li><p><strong>conditions</strong> (<em>dictionary</em>) – a set of conditions you want the group to be subject to (by default none).
+ex. {‘Smoking’: ‘Yes’, ‘Race’: ‘White’}</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the life expectancy of an individual starting in the initial state given the conditions provided</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="METER.summaries.bootstrapLE">
+<code class="sig-prename descclassname">METER.summaries.</code><code class="sig-name descname">bootstrapLE</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">transition_names</span></em>, <em class="sig-param"><span class="n">states</span></em>, <em class="sig-param"><span class="n">initial_states</span></em>, <em class="sig-param"><span class="n">n</span><span class="o">=</span><span class="default_value">1000</span></em>, <em class="sig-param"><span class="n">initial_time</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">censor_states</span><span class="o">=</span><span class="default_value">'default'</span></em>, <em class="sig-param"><span class="n">group_names</span><span class="o">=</span><span class="default_value">'default'</span></em>, <em class="sig-param"><span class="n">conditions</span><span class="o">=</span><span class="default_value">'default'</span></em>, <em class="sig-param"><span class="n">loud</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#METER.summaries.bootstrapLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a bootstrap on the life expectancy for a given set of groups</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pandas dataframe</em>) – the data in wide format as generated by <a class="reference internal" href="table.html#METER.wrangler.wide_format" title="METER.wrangler.wide_format"><code class="xref py py-func docutils literal notranslate"><span class="pre">wide_format()</span></code></a></p></li>
+<li><p><strong>transition_names</strong> (<em>list</em>) – a list of the names of the columns that contain the transition times</p></li>
+<li><p><strong>states</strong> (<em>list</em>) – the names of the states in the model</p></li>
+<li><p><strong>initial_states</strong> (<em>list</em>) – a list of initial states to estimate from</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – the number of bootstraps to run, by default 1000.</p></li>
+<li><p><strong>initial_time</strong> (<em>int</em>) – to estimate life expectancy after a given time (by default 0)</p></li>
+<li><p><strong>censor_states</strong> (<em>list</em>) – the states you want each group’s life expectancy to be censored at (by default no censoring)
+if provided this list must be the same length as initial_states</p></li>
+<li><p><strong>group_names</strong> (<em>list</em>) – what the groups (whose structure is defined both by the initial states and censor states given)
+are to be called. by default this is the same as the initial states. if provided this list must be the same length as initial_states</p></li>
+<li><p><strong>conditions</strong> (<em>list</em>) – a list of dictionaries of conditions you want each group to be subject to (by default none).
+ex. [{‘Race’: ‘White’, ‘Smoking’: ‘Yes’}, {‘Race’: ‘Black’, ‘Smoking’: ‘No’}]</p></li>
+<li><p><strong>loud</strong> (<em>bool</em>) – by default this is false. If it is set to true a small summary of the results of each bootstrap
+as well as the best estimate calculated initially are printed to the console.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a dataframe containing the results of each run of the bootstrap. Each row will include that
+bootstrap life expectancy for each group as well as each of the possible group differences.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="METER.summaries.summary_results">
+<code class="sig-prename descclassname">METER.summaries.</code><code class="sig-name descname">summary_results</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bootstrap</span></em>, <em class="sig-param"><span class="n">confidence_level</span><span class="o">=</span><span class="default_value">0.95</span></em><span class="sig-paren">)</span><a class="headerlink" href="#METER.summaries.summary_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Summarize the results of a bootstrap.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bootstrap</strong> (<em>pandas dataframe</em>) – the bootstrap dataframe generated by <a class="reference internal" href="#METER.summaries.bootstrapLE" title="METER.summaries.bootstrapLE"><code class="xref py py-func docutils literal notranslate"><span class="pre">bootstrapLE()</span></code></a></p></li>
+<li><p><strong>confidence_level</strong> (<em>float</em>) – the confidence level which you want to generate confidence intervals for</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dataframe summarizing the point estimates and confidence intervals for each quantity.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="visualizations.html" class="btn btn-neutral float-right" title="Graphical Summaries" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="table.html" class="btn btn-neutral float-left" title="Constructing Multi-State Life Tables" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Malcolm Risk.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

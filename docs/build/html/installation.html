@@ -40,7 +40,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Constructing Multi-State Life Tables" href="table.html" />
-    <link rel="prev" title="METER 0.4.4 Documentation" href="index.html" /> 
+    <link rel="prev" title="METER 0.5.5 Documentation" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -89,6 +89,8 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Should I use METER?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#installation">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="table.html">Constructing Multi-State Life Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="statistics.html">Generating Survival Estimates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualizations.html">Graphical Summaries</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -179,6 +181,7 @@
 <li><p><strong>Time-inhomogenous</strong> means that time from study entry affects the probability of transitions between states. This is typical for data that stretches over long periods of time, where subject age may be a relevant factor. For example, an individual diagnosed with type 2 diabetes at age 20 is going to have a much better short-term survival prognosis than an 80-year-old with the same diagnosis.</p></li>
 </ul>
 <p>You can still use METER if you believe that your process is time-homogenous, but you might have simpler options available. If you want to model a continuous time process, I suggest using the R package <a class="reference external" href="https://cran.r-project.org/web/packages/msm/index.html">MSM</a>.</p>
+<p>If you haven’t used Python before I would recommend going through a tutorial or two and familiarizing yourself with basic datatypes, but you will not need any advanced knowledge of the language to use METER. You should also make sure that you know how to import .xls and .csv files as pandas dataframes. If you want to do anything beyond the core functionality of the package a decent background in <a class="reference external" href="https://pandas.pydata.org/">pandas</a> will be very useful.</p>
 </div>
 <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
@@ -196,7 +199,7 @@
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="table.html" class="btn btn-neutral float-right" title="Constructing Multi-State Life Tables" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="index.html" class="btn btn-neutral float-left" title="METER 0.4.4 Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="METER 0.5.5 Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
