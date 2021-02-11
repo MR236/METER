@@ -265,7 +265,7 @@ def censorLE(data, transition_names, states, initial_state, initial_time=0, cens
 
     Returns
     ----------
-    int
+    float
         the life expectancy of an individual starting in the initial state given the conditions provided
 
     """
