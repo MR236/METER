@@ -236,7 +236,7 @@ def KaplanMeier(data, termination):
     return [curve, total]
 
 
-def censorLE(data, transition_names, states, censor_state, initial_age=0, initial_state='default', conditions='default'):
+def censorLE(data, transition_names, states, initial_state, initial_age=0, censor_state='default', conditions='default'):
     """
 
     Get the life expectancy of an individual conditional on not moving beyond a particular state for their
@@ -255,26 +255,23 @@ def censorLE(data, transition_names, states, censor_state, initial_age=0, initia
     states: the names of the states in the model, the entry into each of which should
     correspond to the columns in transition_names.
 
-    censor_state: the particular state that you want to restrict movement beyond, ex. 'nominee'.
-    If you don't want any censoring then just pick the final non-death state.
+    initial_state: this represents the initial state that you want to estimate life expectancy from.
 
-    initial_age: optional input if you want to estimate life expectancy after a given age
+    initial_age: optional input if you want to estimate life expectancy after a given age (by default 0)
 
-    initial_state: by default the same as the group above, this represents the initial state
-    that you want to estimate life expectancy from.
+    censor_state: a particular state that you want to restrict movement beyond (by default none)
 
     conditions: a set of conditions you want the group to be subject to (by default none).
     ex. {'Male_1': 0}
 
     Returns
     ----------
-
-    the life expectancy of an individual who spends their entire life after the initial age in the
-    state specified by the group variable.
+    int
+        the life expectancy of an individual starting in the initial state given the conditions provided
 
     """
-    if initial_state == 'default':
-        initial_state = censor_state
+    if censor_state == 'default':
+        censor_state = states[-2]
     if censor_state == states[-2]:
         cens_data = data
         cens_states = states

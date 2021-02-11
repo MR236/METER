@@ -5,7 +5,7 @@ import itertools
 import METER.table as tb
 
 
-def bootstrapLE(data, transition_names, states, censor_states, n=1000, initial_age=0, initial_states='default', group_names='default', conditions='default', loud=False):
+def bootstrapLE(data, transition_names, states, initial_states, n=1000, initial_age=0, censor_states='default', group_names='default', conditions='default', loud=False):
     """
 
     Run a bootstrap on the life expectancy for a given set of groups and their differences
@@ -21,16 +21,14 @@ def bootstrapLE(data, transition_names, states, censor_states, n=1000, initial_a
     states: the names of the states in the model, the entry into each of which should
     correspond to the columns in transition_names.
 
-    censor_states: the states you want each group's life expectancy to be censored at. If you don't want
-    any censoring then just pick the final non-death state for every group.
+    initial_states: should be a list of the same length as groups that governs which initial state you want to estimate life expectancy for individuals in that group
+    from.
 
     n: the number of bootstraps to run, by default 1000.
 
-    initial_age: optional input if you want to estimate life expectancy after a given age
+    initial_age: optional input if you want to estimate life expectancy after a given age (by default 0)
 
-    initial_states: by default the same as the censor states above, should be a list of the same length as groups
-    that governs which initial state you want to estimate life expectancy for individuals in that group
-    from.
+    censor_states: the states you want each group's life expectancy to be censored at (by default no censoring)
 
     group_names: what the groups (whose structure is defined both by the initial states and censor states given)
     are to be called. by default this is the same as the censor states.
@@ -48,17 +46,17 @@ def bootstrapLE(data, transition_names, states, censor_states, n=1000, initial_a
     bootstrap life expectancy for each group as well as each of the possible group differences.
 
     """
-    if initial_states == 'default':
-        initial_states = censor_states
+    if censor_states == 'default':
+        censor_states = states[-2]*len(initial_states)
     if group_names == 'default':
-        group_names = censor_states
+        group_names = initial_states
     if conditions == 'default':
-        conditions = [{}] * len(censor_states)
+        conditions = [{}] * len(initial_states)
     rows = []
     colnames = []
     results = []
-    for i in range(0, len(censor_states)):
-        results.append(tb.censorLE(data, transition_names, states, censor_states[i], initial_age, initial_states[i], conditions[i]))
+    for i in range(0, len(initial_states)):
+        results.append(tb.censorLE(data, transition_names, states, initial_states[i], initial_age, censor_states[i], conditions[i]))
     if loud:
         print("BEST ESTIMATE")
     for i in range(0, len(results)):
@@ -79,7 +77,7 @@ def bootstrapLE(data, transition_names, states, censor_states, n=1000, initial_a
         boot_df = data.sample(frac=1, replace=True)
         results = []
         for y in range(0, len(censor_states)):
-            results.append(tb.censorLE(boot_df, transition_names, states, censor_states[y], initial_age, initial_states[y], conditions[y]))
+            results.append(tb.censorLE(boot_df, transition_names, states, initial_states[y], initial_age, censor_states[y], conditions[y]))
         if loud:
             print("BOOT RUN " + str(i + 1))
         if loud:

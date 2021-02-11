@@ -15,7 +15,7 @@ def wide_format(data, transition_names, exit):
         the data, with dates of all transitions, with one subject per line
 
     transition_names: list
-        a list of the names of the columns that contain the transition years
+        a list of the names of the columns that contain the transition times
 
     exit: string
         the name of the column indicating final follow-up date for each subject
